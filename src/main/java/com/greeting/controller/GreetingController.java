@@ -12,7 +12,7 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     /*
-    Use Case 1 Greeting Controller for Sending Hello Messages using
+    Use Case 1 Greeting Controller for Return JSON Messages using
     HTTP methods via @RequestParam and @PathVariable
      */
     @GetMapping("/greeting")
