@@ -26,4 +26,19 @@ public class GreetingController {
         return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
     }
+
+    /*
+    Use Case 2 Extend GreetingController to use Service Layer to get
+    Simple Greeting message "Hello World"
+     */
+    @GetMapping("/getMap")
+    public String getMessage() {
+        return "Hello World";
+    }
+
+    @GetMapping("/getPath/{name}")
+    public String getPath(@PathVariable String name) {
+        return "Hello " + name;
+    }
+
 }
