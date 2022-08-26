@@ -1,8 +1,9 @@
 package com.greeting.controller;
 
 import com.greeting.entity.Greeting;
+import com.greeting.service.GreetingService;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -41,4 +42,28 @@ public class GreetingController {
         return "Hello " + name;
     }
 
+    /*
+    Use Case 3 Customized Greeting message with service layers
+     */
+    @GetMapping("/getByService")
+    public String getByService() {
+        return GreetingService.getMessage();
+    }
+
+    @GetMapping("/hello")
+    public String sayPosting(@RequestParam (required = false) String firstName, @RequestParam (required = false) String lastName) {
+        if (!(firstName == null || lastName == null)) {
+            return GreetingService.sayHelloByName(firstName, lastName);
+        }
+
+        if (firstName == null && lastName == null) {
+            return "Hello World!";
+        } else if (firstName == null) {
+            firstName = "";
+            return GreetingService.sayHelloByName(firstName, lastName);
+        } else {
+            lastName = "";
+            return GreetingService.sayHelloByName(firstName, lastName);
+        }
+    }
 }
