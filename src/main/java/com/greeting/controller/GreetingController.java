@@ -1,69 +1,55 @@
 package com.greeting.controller;
 
-import com.greeting.entity.Greeting;
+import com.greeting.entity.User;
 import com.greeting.service.GreetingService;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class GreetingController {
+    @Autowired
+    GreetingService greetingService;
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
-    /*
-    Use Case 1 Greeting Controller for Return JSON Messages using
-    HTTP methods via @RequestParam and @PathVariable
-     */
-    @GetMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
-    }
-
-    @GetMapping("/param/{name}")
-    public Greeting greeting1(@PathVariable String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
-    }
-
-    /*
-    Use Case 2 Extend GreetingController to use Service Layer to get
-    Simple Greeting message "Hello World"
-     */
-    @GetMapping("/getMap")
+    @GetMapping("/getmap")
     public String getMessage() {
         return "Hello World";
     }
+    @GetMapping("getbyparam")
+    public String getByParam(@RequestParam String name) {
+        return "Hello " + name;
+    }
 
-    @GetMapping("/getPath/{name}")
+    @GetMapping("/getpath/{name}")
     public String getPath(@PathVariable String name) {
         return "Hello " + name;
     }
 
-    /*
-    Use Case 3 Customized Greeting message with service layers
-     */
-    @GetMapping("/getByService")
+    @GetMapping("/getbyservice")
     public String getByService() {
-        return GreetingService.getMessage();
+        return greetingService.getMessage();
     }
 
     @GetMapping("/hello")
-    public String sayPosting(@RequestParam (required = false) String firstName, @RequestParam (required = false) String lastName) {
+    public String sayPosting(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName) {
         if (!(firstName == null || lastName == null)) {
-            return GreetingService.sayHelloByName(firstName, lastName);
+            return greetingService.sayHelloByName(firstName, lastName);
         }
 
         if (firstName == null && lastName == null) {
             return "Hello World!";
-        } else if (firstName == null) {
-            firstName = "";
-            return GreetingService.sayHelloByName(firstName, lastName);
-        } else {
-            lastName = "";
-            return GreetingService.sayHelloByName(firstName, lastName);
         }
+        else if (firstName == null) {
+            firstName = "";
+            return greetingService.sayHelloByName(firstName, lastName);
+        }
+        else {
+            lastName = "";
+            return greetingService.sayHelloByName(firstName, lastName);
+        }
+    }
+    @PostMapping("/getdata")
+    public User getData(@RequestBody User user) {
+        User user1 = greetingService.postData(user);
+        return user1;
     }
 }
