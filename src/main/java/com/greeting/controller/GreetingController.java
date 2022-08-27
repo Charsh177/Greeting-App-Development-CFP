@@ -5,6 +5,8 @@ import com.greeting.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 public class GreetingController {
     @Autowired
@@ -51,5 +53,10 @@ public class GreetingController {
     public User getData(@RequestBody User user) {
         User user1 = greetingService.postData(user);
         return user1;
+    }
+
+    public Optional<User> getMsgById(@PathVariable int id) {
+        Optional<User> response = greetingService.getMsgById(id);
+        return response;
     }
 }
