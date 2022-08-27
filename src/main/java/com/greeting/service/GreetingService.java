@@ -4,6 +4,9 @@ import com.greeting.entity.User;
 import com.greeting.repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,5 +29,9 @@ public class GreetingService {
 
     public Optional<User> getMsgById(int id) {
         return greetingRepository.findById(id);
+    }
+
+    public List<User> getAllMsg() {
+        return greetingRepository.findAll();
     }
 }
